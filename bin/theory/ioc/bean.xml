@@ -1,0 +1,7 @@
+<beans>
+	<bean name="stu" class="theory.ioc.Student"></bean>
+	
+	<bean name="t" class="theory.ioc.Teacher">
+		<property name="student" ref="stu"></property>
+	</bean>
+</beans>

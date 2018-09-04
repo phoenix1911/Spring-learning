@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.2.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+   
+    
+    
+    
+    <!-- 知识点1:
+    	spring容器怎么管理我们配置的对象:
+    		默认情况下,spring容器用单例的模式来管理这些对象.
+    		通过相同的一个对象名字,多次在容器中拿对象,每一次
+    		拿到的都是 相同的 对象(单例)
+    		
+    		通过配置,我们可以让spring容器用非单例的模式来管理这个对象.	
+    		通过相同的一个对象名字,多次在容器中拿对象,每一次
+    		拿到的都是 不同的 对象(非单例)
+    		在bean标签中加入属性scope="prototype"
+     -->
+    <!-- 知识点2
+    	<bean name="teacher" class="..."> 
+    		name属性的值是自己随便起的
+    		class属性的值表示这里要配置的是哪一个类的对象
+    		
+    	<property name="student" ref="student">
+    		name属性的值表示一个方法,这里表示的是setStudent方法
+    		ref属性表示调用这个setStudent方法的时候要用的参数是名字为student的对象
+     -->
+    <!-- 知识点3
+    	 可以给某一个对象起一个别名: 
+    	 这个时候,不管用student还是用s1,这个俩个名字都是
+    	 指向的同一个Student类型的对象
+    	 <bean name="student" class="com.briup.bean.Student"></bean>
+    	 <alias name="student" alias="s1"/>
+    -->
+    <!--知识点4
+    	可以给一个类配置多个对象,对象的名字要不同 
+    -->
+    <!--知识点5 
+    	bean标签里面的id和name属性都可以用来标识这个配置的对象,
+    	 但是id会帮我们检查给对象起的名字是否规范
+    	 (名字不能重复、不能用数字开头、不能有空格等等),
+    	 如果检查出来了那么就会报错。
+    	 name属性不会帮检查这些东西。
+     -->
+	<!--1.配置bean对象-->
+    <bean name="student" class="bean.Student">
+		<property name="id" value="100"/>
+		<property name="name" value="zs"/>
+		<property name="age" value="18"/>
+
+	</bean>
+	<!--2.配置teacher对象-->
+	<bean name="teacher" class="bean.Teacher">
+		<property name="id">
+			<value>1000</value>
+		</property>
+		<property name="name">
+			<value>李四</value>
+		</property>
+		<!--ref的student和上面的bean name="student"关联-->
+		<property name="student" ref="student"/>
+	</bean>
+
+	<!--3.装配集合,数组数据-->
+	<bean name = "studentColl" class="bean.Student">
+		<property name="name" value="zs"/>
+		<property name="list">
+			<list>
+				<value>list1</value>
+				<value>list2</value>
+				<value>list3</value>
+			</list>
+		</property>
+
+		<property name="set">
+			<set>
+				<value>set1</value>
+				<value>set2</value>
+				<value>set3</value>
+			</set>
+		</property>
+
+		<property name="map">
+			<map>
+				<entry key="k1" value="v1"/>
+				<entry key="k2" value="v2"/>
+				<entry key="k3" value="v3"/>
+				<entry key="k4">
+					<value>v4</value>
+				</entry>
+			</map>
+		</property>
+
+		<property name="prop">
+			<props>
+				<prop key="pk1">pv1</prop>
+				<prop key="pk2">pv2</prop>
+				<prop key="pk3">pv3</prop>
+			</props>
+		</property>
+		<!--数组方式1-->
+		<!--<property name="strs">-->
+			<!--<list>-->
+				<!--<value>str1</value>-->
+				<!--<value>str2</value>-->
+				<!--<value>str3</value>-->
+			<!--</list>-->
+		<!--</property>-->
+		<!--数组方式2-->
+		<property name="strs" value="str1,str2,str3"/>
+	</bean>
+
+	<bean name="studentColl2" class="bean.Student">
+
+		<property name="list">
+			<list>
+				<ref bean="student"/>
+				<ref bean="student"/>
+				<ref bean="teacher"/>
+				<ref bean="teacher"/>
+			</list>
+		</property>
+
+		<property name="set">
+			<set>
+				<ref bean="student"/>
+				<ref bean="student"/>
+				<ref bean="teacher"/>
+				<ref bean="teacher"/>
+			</set>
+		</property>
+
+		<property name="map">
+			<map>
+				<entry key="student" value-ref="student"/>
+				<entry key-ref="student">
+					<ref bean="teacher"/>
+				</entry>
+				<entry key-ref="teacher" value-ref="student"/>
+			</map>
+		</property>
+
+		<property name="prop">
+			<props>
+				<prop key="pk1">pk1</prop>
+				<prop key="pk2">pk2</prop>
+			</props>
+		</property>
+
+		<property name="objs">
+			<list>
+				<ref bean="student"/>
+				<ref bean="teacher"/>
+				<ref bean="student"/>
+				<ref bean="teacher"/>
+			</list>
+		</property>
+	</bean>
+
+</beans>
