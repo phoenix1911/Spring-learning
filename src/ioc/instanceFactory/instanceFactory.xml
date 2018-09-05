@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:oracle.properties</value>
+        </property>
+    </bean>
+    <!--正常配置工厂类,通过factory获取到的就是工厂对象-->
+    <bean name="factory" class="ioc.instanceFactory.ConnectionInstanceFactory">
+        <property name="driver" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="user" value="${user}"/>
+        <property name="password" value="${password}"/>
+    </bean>
+
+    <!--通过工厂类调用指定的方法获取产品,默认单例-->
+    <bean name="connection" factory-bean="factory" factory-method="getConnection"></bean>
+
+</beans>

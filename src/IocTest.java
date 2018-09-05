@@ -1,10 +1,16 @@
 
+import ioc.annotation.Boss;
+import ioc.event.RainEvent;
+import ioc.life.Life_User;
+import ioc.propertyEditor.PropertyEditor_Student;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import bean.Student;
 import bean.Teacher;
+
+import java.sql.Connection;
 
 //ioc功能的测试类
 //每个方法测试一个知识点
@@ -131,9 +137,18 @@ public class IocTest {
     public void ioc_life() {
         try {
             String path = "ioc/life/life.xml";
-            ClassPathXmlApplicationContext container =
-                    new ClassPathXmlApplicationContext(path);
+            System.out.println("生命周期+起别名+默认单例+非单例+");
+            ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext(path);
+            Life_User user1 = (Life_User) container.getBean("user1");
+            System.out.println(user1);
+            System.out.println(user1.getBeanName());
 
+            Life_User user2 = (Life_User) container.getBean("user1_1");
+            Life_User user3 = (Life_User) container.getBean("user1_2");
+            System.out.println(user1==user2);
+            System.out.println(user2==user3);
+            //容器销毁
+            container.destroy();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -147,8 +162,12 @@ public class IocTest {
 
 //			String[] path = {"ioc/imp/teacher.xml","ioc/imp/student.xml"};
             String[] path = {"ioc/imp/import.xml"};
-            ApplicationContext container =
-                    new ClassPathXmlApplicationContext(path);
+            ApplicationContext container = new ClassPathXmlApplicationContext(path);
+            Teacher tea = (Teacher) container.getBean("tea");
+            Student stu = (Student) container.getBean("stu");
+            System.out.println(stu);
+            System.out.println(tea);
+
 
 
         } catch (Exception e) {
@@ -161,8 +180,16 @@ public class IocTest {
     public void ioc_Factory() {
         try {
             String path = "ioc/factory/factory.xml";
-            ApplicationContext container =
-                    new ClassPathXmlApplicationContext(path);
+            ApplicationContext container = new ClassPathXmlApplicationContext(path);
+            Connection connection = (Connection) container.getBean("connection");
+            System.out.println(connection);
+            Connection connection1 = (Connection) container.getBean("connection");
+            Connection connection2 = (Connection) container.getBean("connection");
+            Connection connection3 = (Connection) container.getBean("connection");
+            System.out.println(connection1);
+            System.out.println(connection2);
+            System.out.println(connection3);
+
 
 
         } catch (Exception e) {
@@ -175,8 +202,11 @@ public class IocTest {
     public void ioc_instanceFactory() {
         try {
             String path = "ioc/instanceFactory/instanceFactory.xml";
-            ApplicationContext container =
-                    new ClassPathXmlApplicationContext(path);
+            ApplicationContext container = new ClassPathXmlApplicationContext(path);
+            Connection connection = (Connection) container.getBean("connection");
+            System.out.println(connection);
+
+
 
 
         } catch (Exception e) {
@@ -189,8 +219,9 @@ public class IocTest {
     public void ioc_staticFactory() {
         try {
             String path = "ioc/staticFactory/staticFactory.xml";
-            ApplicationContext container =
-                    new ClassPathXmlApplicationContext(path);
+            ApplicationContext container = new ClassPathXmlApplicationContext(path);
+            Connection connection = (Connection) container.getBean("connection");
+            System.out.println(connection);
 
 
         } catch (Exception e) {
@@ -202,11 +233,11 @@ public class IocTest {
     //知识点: 使用自定义属性编辑器
     public void ioc_proEdit() {
         try {
-            String[] path = {"ioc/proEdit/proEdit.xml"};
-            ApplicationContext container =
-                    new ClassPathXmlApplicationContext(path);
-
-
+            String[] path = {"ioc/propertyEditor/proEdit.xml"};
+            ApplicationContext container = new ClassPathXmlApplicationContext(path);
+            PropertyEditor_Student student = (PropertyEditor_Student) container.getBean("student");
+            System.out.println(student);
+            System.out.println(student.getAddress());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -218,11 +249,9 @@ public class IocTest {
     public void ioc_event() {
         try {
             String path = "ioc/event/event.xml";
-            ApplicationContext container =
-                    new ClassPathXmlApplicationContext(path);
-
-
-
+            ApplicationContext container = new ClassPathXmlApplicationContext(path);
+            //容器发布事件
+            container.publishEvent(new RainEvent("下雨了"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -233,8 +262,9 @@ public class IocTest {
     public void ioc_annotation() {
         try {
             String path = "ioc/annotation/annotation.xml";
-            ApplicationContext container =
-                    new ClassPathXmlApplicationContext(path);
+            ApplicationContext container = new ClassPathXmlApplicationContext(path);
+            Boss boss = (Boss) container.getBean("boss");
+            System.out.println(boss);
 
         } catch (Exception e) {
             e.printStackTrace();

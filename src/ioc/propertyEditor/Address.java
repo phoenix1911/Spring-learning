@@ -1,4 +1,4 @@
-package ioc.proEdit;
+package ioc.propertyEditor;
 
 public class Address {
 	private String city;

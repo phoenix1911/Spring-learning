@@ -6,5 +6,11 @@
            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-3.2.xsd">
-    
+
+	<bean name="tea" class="bean.Teacher">
+		<property name="id" value="107"/>
+		<property name="name" value="lisi"/>
+		<property name="student" ref="stu"/>
+	</bean>
+
 </beans>

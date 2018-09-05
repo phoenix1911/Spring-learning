@@ -1,6 +1,6 @@
-package ioc.proEdit;
+package ioc.propertyEditor;
 
-public class Student {
+public class PropertyEditor_Student {
 	private long id;
 	private String name;
 	private boolean gender;

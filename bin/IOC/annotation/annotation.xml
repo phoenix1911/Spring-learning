@@ -8,5 +8,38 @@
    http://www.springframework.org/schema/context 
    http://www.springframework.org/schema/context/spring-context-3.2.xsd">
    
-	
+	<!--&lt;!&ndash;配置一个boss,给boss注入car,注入office&ndash;&gt;-->
+	<!--<bean name="car1" class="ioc.annotation.Car">-->
+		<!--<property name="price" value="200000.0"/>-->
+		<!--<property name="name" value="BYD"/>-->
+	<!--</bean>-->
+	<!--<bean name="car2" class="ioc.annotation.Car">-->
+		<!--<property name="price" value="400000.0"/>-->
+		<!--<property name="name" value="BMW"/>-->
+	<!--</bean>-->
+
+	<!--<bean name="office" class="ioc.annotation.Office"/>-->
+	<!--<bean name="office3" class="ioc.annotation.Office"/>-->
+
+
+	<!--&lt;!&ndash;<bean name="boss" class="ioc.annotation.Boss">&ndash;&gt;-->
+		<!--&lt;!&ndash;<property name="name" value="zs"/>&ndash;&gt;-->
+		<!--&lt;!&ndash;<property name="car" ref="car"/>&ndash;&gt;-->
+		<!--&lt;!&ndash;<property name="office" ref="office"/>&ndash;&gt;-->
+	<!--&lt;!&ndash;</bean>&ndash;&gt;-->
+
+	<!--<bean name="boss" class="ioc.annotation.Boss">-->
+		<!--<property name="name" value="zs"/>-->
+		<!--&lt;!&ndash;<property name="car" ref="car"/>&ndash;&gt;-->
+		<!--&lt;!&ndash;<property name="office" ref="office"/>&ndash;&gt;-->
+	<!--</bean>-->
+
+	<!--使用了注解 ,加配置-->
+	<!--<context:annotation-config></context:annotation-config>-->
+
+	<!--使用注解2,加配置2-->
+	<context:component-scan base-package="ioc.annotation"/>
+
+
+
 </beans>
