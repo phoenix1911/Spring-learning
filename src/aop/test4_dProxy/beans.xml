@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+   http://www.springframework.org/schema/beans 
+   http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+   http://www.springframework.org/schema/context 
+   http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+	
+	<!--配置切面(目标对象不想执行的代码:日志/)  -->
+	<bean name="log" class="aop.test1_staticProxy.Logger"></bean>
+	<!--配置自定义的拦截  -->
+	<bean name="handler" class="aop.test4_dProxy.LogHandler">
+		<!--切面不是简单的打印，而是放到一个“切面类的一个方法中”整合起来，注入切面  -->
+		<property name="log" ref="log"></property>
+		<!--注入目标对象  -->
+		<property name="target" ref="target"></property>
+	</bean>
+	
+	<!--配置account对象  -->
+	<bean name="account" class="aop.pojo.Account"></bean>
+	<!--配置dao层对象  -->
+	<bean name="accountDao" class="aop.dao.AccountDaoImpl"></bean>
+	<!--配置目标对象servcie  -->
+	<bean name="target" class="aop.service.AccountServiceImpl">
+		<!--注入dao层对象  -->
+		<property name="accountDao" ref="accountDao"></property>
+		<!--注入account对象  -->
+		<property name="account" ref="account"></property>
+	</bean>
+	
+	<!--代理工厂，获取代理对象   -->
+	<bean name="proxy" class="aop.test4_dProxy.ProxyFactoryBean">
+		<!--注入三个参数  -->
+		<!--注入目标对象  -->
+		<property name="target" ref="target"></property>
+		<!--注入目标对象实现的所有接口  -->
+		<property name="interfaces">
+			<list>
+				<value>aop.service.IAccountService</value>
+			</list>
+		</property>
+		<!--注入自定义的InvocationHandler拦截器[前置？正常后置？环绕？异常？后置,我们不分，模拟拦截器]  -->
+		<property name="handler" ref="handler"></property>
+	</bean>
+	
+	
+	
+		
+</beans>
